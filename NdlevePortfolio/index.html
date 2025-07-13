@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <title>Bongiwe Ndleve</title>
+</head>
+<body>
+  <header>
+    <div class="initials-logo">
+      <a href="#home">
+        <img class="logo" src="images/logo.png" alt="Logo">
+      </a>
+    </div>
+
+    <div class="nav-toggle" onclick="document.querySelector('.navigation').classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <nav class="navigation">
+      <ul>
+        <li><a href="#about">Home</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <div class="about-text">
+        <h1>Bongiwe Ndleve</h1>
+        <p class="subtitle">Aspiring Psychology Researcher | Mental Health Advocate</p>
+        <p>Bongiwe Ndleve is an aspiring psychology researcher and current undergraduate student. He is passionate about mental health, cognitive development, and how psychological research can help build more resilient communities.</p>
+      </div>
+      <img src="images/ndleve.jpg" alt="Bongiwe Ndleve" class="about-img">
+    </div>
+</section>
+
+
+
+  <section id="research" class="research-section" data-aos="fade-up" data-aos-delay="100">
+    <h2>Projects & Research</h2>
+    <div class="carousel-container">
+      <button class="carousel-btn left" onclick="scrollCarousel(-1)">&#8592;</button>
+      <div class="carousel" id="research-carousel">
+
+      <div class="card">
+        <img src="images/project1.png" alt="Project 1">
+        <h3>Crime & Society</h3>
+        <p>Oversaw a collaborative project by guiding individual contributions and synthesizing them into a cohesive final product. Took the lead in designing and organizing presentation slides to ensure clarity and impact. Engaged confidently with questions from peers and lecturers, enhancing the overall delivery. This experience strengthened a wide range of skills including leadership, problem solving, analytical thinking, teamwork, and effective communication—while also reinforcing a strong work ethic, attention to detail, and a mindset of continuous learning.</p>
+      </div>
+
+        <div class="card">
+          <img src="images/research1.png" alt="Research 1">
+          <h3>Relationship Stress vs Academic Performance</h3>
+          <p> This study investigates the correlation between stress levels and academic performance among undergraduate students. It explores how chronic stress, time pressure, and emotional fatigue impact cognitive functioning and exam outcomes. By analyzing survey data and academic records, the research aims to identify patterns and potential risk factors. The study also considers the role of support systems, such as peer networks and campus counseling services, in mitigating stress.</p>
+        </div>
+
+        <div class="card">
+          <img src="images/research2.png" alt="Research 2">
+          <h3>Post-Pandemic Coping Mechanisms for the Youth.</h3>
+          <p>This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic. It examines how young people navigate emotional distress, social isolation, and academic disruptions through mechanisms such as mindfulness, peer support, digital communities, and creative expression. The study draws on qualitative interviews and psychological assessments to identify patterns of resilience and vulnerability.</p>
+        </div>
+
+        <div class="card">
+          <img src="images/research3.png" alt="Research 3">
+          <h3>Early Childhood Intervention & Psychological Resilience.</h3>
+          <p>This study examines how early childhood interventions contribute to the development of psychological resilience later in life. It focuses on programs that support emotional regulation, secure attachment, and cognitive stimulation during formative years. By analyzing longitudinal data and case studies, the research highlights how timely support can buffer against future mental health challenges and enhance adaptive coping skills. The study also explores the role of caregivers, educators, and community resources in fostering resilience.</p>
+        </div>
+
+        <div class="card">
+          <img src="images/research2.png" alt="Research 2">
+          <h3>Coping Mechanisms in Post-Pandemic Youth</h3>
+          <p>This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic. It examines how young people navigate emotional distress, social isolation, and academic disruptions through mechanisms such as mindfulness, peer support, digital communities, and creative expression. The study draws on qualitative interviews and psychological assessments to identify patterns of resilience and vulnerability.</p>
+        </div>
+
+        <div class="card">
+          <img src="images/research3.png" alt="Research 3">
+          <h3>Early Childhood Intervention & Resilience</h3>
+          <p>This study examines how early childhood interventions contribute to the development of psychological resilience later in life. It focuses on programs that support emotional regulation, secure attachment, and cognitive stimulation during formative years. The research highlights how timely support can buffer against future mental health challenges and enhance adaptive coping skills.</p>
+        </div>
+
+        <div class="card">
+          <img src="images/research1.png" alt="Research 4">
+          <h3>Digital Communities & Mental Health Support</h3>
+          <p>This project investigates the role of online platforms in providing mental health support to young adults. It explores how digital communities foster connection, reduce stigma, and offer accessible coping resources. The study evaluates the effectiveness of peer-led forums, mental health apps, and social media spaces in promoting emotional well-being and resilience.</p>
+        </div>
+      </div>
+      <button class="carousel-btn right" onclick="scrollCarousel(1)">&#8594;</button>
+    </div>
+  </section>
+
+  <section id="resume" class="resume-section" data-aos="fade-up" data-aos-delay="100">
+    <div class="resume-container">
+      <div class="resume-column">
+        <h3 class="resume-title">Summary</h3>
+        <div class="resume-item pb-0">
+          <h4>Bongiwe Ndleve</h4>
+          <p><em>Bachelor of Arts student, majoring in Psychology and Sociology, committed to delivering insightful research and supporting evidence-based decision-making. Demonstrates adeptness at employing diverse methodologies to explore human behaviour and social dynamics, contributing to organisational objectives through rigorous analysis, effective collaboration and clear communication.</em></p>
+          <ul>
+            <li>Port Elizabeth, Eastern Cape</li>
+            <li>(+27) 062 440 8171</li>
+            <li>bndleve@gmail.com</li>
+          </ul>
+        </div>
+
+        <h3 class="resume-title">Education</h3>
+        <div class="resume-item">
+          <h4>BACHELOR OF ARTS</h4>
+          <h5>In Progress (Expected: 2026)</h5>
+          <p><em>Nelson Mandela University, Port Elizabeth, Eastern Cape</em></p>
+          <p>Major Modules: Psychology and Sociology. Coursewok to be included</p>
+        </div>
+          <div class="resume-item">
+          <h4>National Senior Certificate</h4>
+          <h5>Completed</h5>
+          <p><em>Nkwangulatilo Education Centre, Giyani, Limpopo</em></p>
+          <p>Coursework to be included.</p>
+        </div>
+    </div>
+
+    <div class="resume-column">
+      <h3 class="resume-title">Professional Experience</h3>
+      <div class="resume-item">
+        <h4>Driver</h4>
+        <h5>February 2021 - August 2022</h5>
+        <p><em>Uber, Port Elizabeth, Eastern Cape</em></p>
+        <ul>
+          <li>Improved client satisfaction by actively listening and responding to diverse passenger needs.</li>
+          <li>Maintained ride quality by calmly resolving disagreements and tensions.</li>
+          <li>Met time targets consistently by optimising daily schedules and routes.</li>
+          <li>Sustained work consistency by adapting to irregular shifts and varying client demands.</li>
+        </ul>
+      </div>
+      <div class="resume-item">
+        <h4>Volunteer Work: Secretary</h4>
+        <h5>February 2017 - December 2020</h5>
+        <p><em>Rising Sun Foundation</em></p>
+        <ul>
+          <li>Ensured accurate documentation by maintaining all organisational files and reports.</li>
+          <li>Improved internal coordination by serving as the main point of contact.</li>
+          <li>Streamlined decision-making by scheduling, preparing, and facilitating meetings.</li>
+          <li>Contributed to long-term planning by participating in strategy development sessions.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="resume-column">
+        <h3 class="resume-title">Skills</h3>
+        <div class="resume-item pb-0">
+          <ul>
+          <li>Research</li>
+          <li>Qualitative Analysis</li>
+          <li>Quantitative Analysis</li>
+          <li>Academic Writing</li>
+          <li>Data Analysis</li>
+          <li>Presentation Skills</li>
+          <li>Cultural Awareness</li>
+          <li>Interpersonal Skills</li>
+          <li>Statistical Analysis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section" data-aos="zoom-in" data-aos-delay="100">
+      <h2>Contact Me</h2>
+      <div class="contact-container">
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> bongiwe@example.com</p>
+          <p><i class="fas fa-phone"></i> +27 12 345 6789</p>
+        </div>
+
+        <form id="contact-form" class="contact-form" action="https://formspree.io/f/xnnvekya" method="POST">
+          <input type="hidden" name="_subject" value="New message from website">
+
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+          <textarea name="message" placeholder="Your Message" required></textarea>
+
+          <button type="submit" id="submit-button">
+            <span id="spinner" class="spinner" style="display: none;"></span>
+            <span class="btn-text">Send</span>
+          </button>
+          <p id="form-status" class="form-status"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Bongiwe Ndleve | Developed by Lesley Ngcobo</p>
+    </footer>
+    <script src="script.js"></script>
+    <!-- AOS JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000,     // animation duration (ms)
+        once: true,         // whether animation should happen only once
+        easing: 'ease-out'  // easing option
+      });
+    </script>
+  </body>
+</html>
