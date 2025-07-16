@@ -171,12 +171,35 @@ Research Section
   flex: 0 0 300px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
   text-align: left;
   transition: transform 0.3s;
   scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
 }
+
+.read-more-container {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.read-more-btn {
+  padding: 6px 12px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-btn:hover {
+  background-color: #0056b3;
+}
+
 
 .card:hover {
   transform: scale(1.03);

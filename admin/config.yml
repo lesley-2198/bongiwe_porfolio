@@ -1,0 +1,19 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "uploads" 
+public_folder: "/uploads"
+
+collections:
+  - name: "research"
+    label: "Research Papers"
+    folder: "data/research"  # Points to your folder
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Cover Image", name: "image", widget: "image"}
+      - {label: "PDF File", name: "file", widget: "file"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
