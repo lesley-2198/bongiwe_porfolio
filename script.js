@@ -79,3 +79,45 @@ window.addEventListener('DOMContentLoaded', () => {
     once: true,         // whether animation should happen only once
     easing: 'ease-out'  // easing option
   });
+
+  // Adjust these paths if necessary
+const researchFolder = '/data/research/';
+const pdfFolder = '/data/research_pdf/';
+const imageFolder = '/images/';
+const container = document.getElementById('research-container');
+
+// List your markdown files here
+const files = [
+  'relationship-stress.md',
+  'post-pandemic-coping.md',
+  'early-childhood-resilience.md'
+];
+
+files.forEach(filename => {
+  fetch(`${researchFolder}${filename}`)
+    .then(response => response.text())
+    .then(fileContent => {
+      const parsed = matter(fileContent);
+      const data = parsed.data;
+
+      const title = data.title || 'Untitled';
+      const description = data.description || '';
+      const image = imageFolder + data.image;
+      const pdf = pdfFolder + data.pdf;
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${image}" alt="${title}">
+        <h3>${title}</h3>
+        <p>${description}</p>
+        <div class="read-more-container">
+          <a href="${pdf}" class="read-more-btn" target="_blank">Read More →</a>
+        </div>
+      `;
+      container.appendChild(card);
+    })
+    .catch(err => {
+      console.error(`Error loading ${filename}:`, err);
+    });
+});

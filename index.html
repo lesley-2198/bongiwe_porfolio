@@ -56,59 +56,8 @@
       <button class="carousel-btn left" onclick="scrollCarousel(-1)">&#8592;</button>
       <div class="carousel" id="research-carousel">
 
-        <div class="card">
-          <img src="images/research1.png" alt="Research 1">
-          <h3>Relationship Stress vs Academic Performance</h3>
-          <p> This study investigates the correlation between stress levels and academic performance among undergraduate students. It explores how chronic stress, time pressure, and emotional fatigue impact cognitive functioning and exam outcomes. By analyzing survey data and academic records, the research aims to identify patterns and potential risk factors. The study also considers the role of support systems, such as peer networks and campus counseling services, in mitigating stress.</p>
-          <div class="read-more-container">
-            <a href="./data/research/Relationship Between Stress and Academic Performance Among Undergraduates.pdf" class="read-more-btn">Read More →</a>
-          </div>
-        </div>
+        <div id="research-container" class="research-grid"></div>
 
-        <div class="card">
-          <img src="images/research2.png" alt="Research 2">
-          <h3>Post-Pandemic Coping Mechanisms for the Youth.</h3>
-          <p>This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic. It examines how young people navigate emotional distress, social isolation, and academic disruptions through mechanisms such as mindfulness, peer support, digital communities, and creative expression. The study draws on qualitative interviews and psychological assessments to identify patterns of resilience and vulnerability.</p>
-          <div class="read-more-container">
-            <a href="./data/research/POST PANDEMIC COPING MECHANISMS FOR THE YOUTH.pdf" class="read-more-btn">Read More →</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="images/research3.png" alt="Research 3">
-          <h3>Early Childhood Intervention & Psychological Resilience.</h3>
-          <p>This study examines how early childhood interventions contribute to the development of psychological resilience later in life. It focuses on programs that support emotional regulation, secure attachment, and cognitive stimulation during formative years. By analyzing longitudinal data and case studies, the research highlights how timely support can buffer against future mental health challenges and enhance adaptive coping skills. The study also explores the role of caregivers, educators, and community resources in fostering resilience.</p>
-          <div class="read-more-container">
-            <a href="./data/research/Early Childhood Interventions and the Development of Psychological Resilience.pdf" class="read-more-btn">Read More →</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="images/project1.png" alt="Project 1">
-          <h3>Crime & Society</h3>
-          <p>Oversaw a collaborative project by guiding individual contributions and synthesizing them into a cohesive final product. Took the lead in designing and organizing presentation slides to ensure clarity and impact. Engaged confidently with questions from peers and lecturers, enhancing the overall delivery. This experience strengthened a wide range of skills including leadership, problem solving, analytical thinking, teamwork, and effective communication—while also reinforcing a strong work ethic, attention to detail, and a mindset of continuous learning.</p>
-        </div>
-
-        <div class="card">
-          <img src="images/research2.png" alt="Research 2">
-          <h3>Coping Mechanisms in Post-Pandemic Youth</h3>
-          <p>This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic. It examines how young people navigate emotional distress, social isolation, and academic disruptions through mechanisms such as mindfulness, peer support, digital communities, and creative expression. The study draws on qualitative interviews and psychological assessments to identify patterns of resilience and vulnerability.</p>
-        </div>
-
-        <div class="card">
-          <img src="images/research3.png" alt="Research 3">
-          <h3>Early Childhood Intervention & Resilience</h3>
-          <p>This study examines how early childhood interventions contribute to the development of psychological resilience later in life. It focuses on programs that support emotional regulation, secure attachment, and cognitive stimulation during formative years. The research highlights how timely support can buffer against future mental health challenges and enhance adaptive coping skills.</p>
-        </div>
-
-        <div class="card">
-          <img src="images/research1.png" alt="Research 4">
-          <h3>Digital Communities & Mental Health Support</h3>
-          <p>This project investigates the role of online platforms in providing mental health support to young adults. It explores how digital communities foster connection, reduce stigma, and offer accessible coping resources. The study evaluates the effectiveness of peer-led forums, mental health apps, and social media spaces in promoting emotional well-being and resilience.</p>
-        </div>
-      </div>
-      <button class="carousel-btn right" onclick="scrollCarousel(1)">&#8594;</button>
-    </div>
   </section>
 
   <section id="resume" class="resume-section" data-aos="fade-up" data-aos-delay="100">
@@ -211,7 +160,9 @@
     <footer>
       <p>&copy; 2025 Bongiwe Ndleve | Developed by Lesley Ngcobo</p>
     </footer>
+
     <script src="script.js"></script>
+
     <!-- AOS JS -->
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
@@ -221,5 +172,9 @@
         easing: 'ease-out'  // easing option
       });
     </script>
+
+    <!-- gray-matter and marked.js (for parsing .md content) -->
+    <script src="https://cdn.jsdelivr.net/npm/gray-matter@4.0.3/dist/gray-matter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </body>
 </html>

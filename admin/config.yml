@@ -2,18 +2,19 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "uploads" 
-public_folder: "/uploads"
+media_folder: "images"
+public_folder: "/images"
 
 collections:
   - name: "research"
     label: "Research Papers"
-    folder: "data/research"  # Points to your folder
+    folder: "data/research"
     create: true
     slug: "{{slug}}"
+    format: "yaml-frontmatter"
+    extension: "md"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Description", name: "description", widget: "text"}
-      - {label: "Cover Image", name: "image", widget: "image"}
-      - {label: "PDF File", name: "file", widget: "file"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "PDF File", name: "pdf", widget: "file", media_folder: "/data/research_pdf", public_folder: "/data/research_pdf" }
