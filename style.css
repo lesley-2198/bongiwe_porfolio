@@ -124,6 +124,10 @@ About Section
   flex: 1;
   border-radius: 10px;
   max-width: 400px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
 }
 
 .about-text h1 {
@@ -439,6 +443,7 @@ Responsive
 
   .about-img {
     max-width: 80%;
+    height: auto;
   }
 
   .about-text {
