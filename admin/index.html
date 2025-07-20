@@ -1,24 +1,128 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  </head>
-  <body>
-    <!-- Include the script that builds the page and powers Netlify CMS -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-    
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <link rel="stylesheet" href="admin.css">
+
+    <title>Research Admin</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Research Paper Manager</h1>
+            <p>Add and manage research papers for Bongiwe's website</p>
+        </div>
+        
+        <div class="admin-form">
+            <form id="research-form">
+                <div class="form-group">
+                    <label for="title">Research Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">Image Filename (e.g., research1.png)</label>
+                    <input type="text" id="image" name="image" placeholder="research1.png">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pdf">PDF Filename (e.g., my-research.pdf)</label>
+                    <input type="text" id="pdf" name="pdf" placeholder="my-research.pdf">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                
+                <button type="submit" class="btn">Generate Markdown</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+            </form>
+            
+            <div class="output-section" id="output-section" style="display: none;">
+                <h3>Generated Markdown File Content:</h3>
+                <p>Copy this content and save it as a <code>.md</code> file in your <code>data/research/</code> folder:</p>
+                <div class="code-output" id="markdown-output"></div>
+                <button class="btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+            </div>
+            
+            <div class="research-list">
+                <h3>Current Research Papers:</h3>
+                <div id="current-research">
+                    <div class="research-item">
+                        <h3>Relationship Stress vs Academic Performance</h3>
+                        <p>This study investigates the correlation between stress levels and academic performance among undergraduate students...</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>Post-Pandemic Coping Mechanisms for the Youth</h3>
+                        <p>This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic...</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>Early Childhood Intervention & Psychological Resilience</h3>
+                        <p>This study examines how early childhood interventions contribute to the development of psychological resilience...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-      // Ensure proper authentication flow
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.open();
-          }
+        document.getElementById('research-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const title = formData.get('title');
+            const description = formData.get('description');
+            const image = formData.get('image');
+            const pdf = formData.get('pdf');
+            const date = formData.get('date') || new Date().toISOString().split('T')[0];
+            
+            const slug = title.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            
+            const markdown = `---
+title: "${title}"
+description: "${description}"
+image: "${image}"
+file: "${pdf}"
+date: ${date}
+---`;
+            
+            document.getElementById('markdown-output').textContent = markdown;
+            document.getElementById('output-section').style.display = 'block';
+            
+            // Add to current research list
+            const newItem = document.createElement('div');
+            newItem.className = 'research-item';
+            newItem.innerHTML = `
+                <h3>${title}</h3>
+                <p>${description}</p>
+            `;
+            document.getElementById('current-research').appendChild(newItem);
         });
-      }
+        
+        function clearForm() {
+            document.getElementById('research-form').reset();
+            document.getElementById('output-section').style.display = 'none';
+        }
+        
+        function copyToClipboard() {
+            const output = document.getElementById('markdown-output');
+            navigator.clipboard.writeText(output.textContent).then(() => {
+                alert('Markdown content copied to clipboard!');
+            });
+        }
+        
+        // Set today's date as default
+        document.getElementById('date').valueAsDate = new Date();
     </script>
-  </body>
+</body>
 </html>
