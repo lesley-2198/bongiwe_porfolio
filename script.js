@@ -97,50 +97,105 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ---------- Load Markdown Research Cards ----------
+// ---------- Load Research Cards with Fallback Data ----------
 document.addEventListener('DOMContentLoaded', () => {
-  const researchFolder = '/data/research/';
-  const pdfFolder = '/data/research_pdf/';
-  const imageFolder = '/images/';
   const container = document.getElementById('research-container');
-
-  if (!container || typeof matter === 'undefined') {
-    console.error('Cannot render research cards. Either container or gray-matter is missing.');
+  
+  if (!container) {
+    console.error('Research container not found');
     return;
   }
 
-  const files = [
-    'relationship-stress.md',
-    'post-pandemic-coping.md',
-    'early-childhood-resilience.md'
+  // Fallback data in case markdown files can't be loaded
+  const fallbackResearch = [
+    {
+      title: "Relationship Stress vs Academic Performance",
+      description: "This study investigates the correlation between stress levels and academic performance among undergraduate students. It explores how chronic stress, time pressure, and emotional fatigue impact cognitive functioning and exam outcomes...",
+      image: "images/research1.png",
+      pdf: "data/research_pdf/relationship-stress.pdf"
+    },
+    {
+      title: "Post-Pandemic Coping Mechanisms for the Youth",
+      description: "This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic. It examines how young people navigate emotional distress, social isolation, and academic disruptions through mechanisms such as mindfulness, peer support, digital communities, and creative expression.",
+      image: "images/research3.png",
+      pdf: "data/research_pdf/post-pandemic-coping.pdf"
+    },
+    {
+      title: "Early Childhood Intervention & Psychological Resilience",
+      description: "This study examines how early childhood interventions contribute to the development of psychological resilience later in life. It focuses on programs that support emotional regulation, secure attachment, and cognitive stimulation during formative years.",
+      image: "images/research2.png",
+      pdf: "data/research_pdf/early-childhood-resilience.pdf"
+    }
   ];
 
-  files.forEach(filename => {
-    fetch(`${researchFolder}${filename}`)
-      .then(response => response.text())
-      .then(fileContent => {
-        const parsed = matter(fileContent);
-        const data = parsed.data;
+  // Function to create research cards
+  function createResearchCard(research) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${research.image}" alt="${research.title}" onerror="this.src='images/placeholder.png'">
+      <h3>${research.title}</h3>
+      <p>${research.description}</p>
+      <div class="read-more-container">
+        <a href="${research.pdf}" class="read-more-btn" target="_blank">Read More →</a>
+      </div>
+    `;
+    return card;
+  }
 
-        const title = data.title || 'Untitled';
-        const description = data.description || '';
-        const image = imageFolder + data.image;
-        const pdf = pdfFolder + data.pdf;
+  // Try to load from markdown files first, fallback to hardcoded data
+  if (typeof matter !== 'undefined') {
+    const researchFolder = 'data/research/';
+    const files = [
+      'relationship-stress.md',
+      'post-pandemic-coping.md', 
+      'early-childhood-resilience.md'
+    ];
 
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${image}" alt="${title}">
-          <h3>${title}</h3>
-          <p>${description}</p>
-          <div class="read-more-container">
-            <a href="${pdf}" class="read-more-btn" target="_blank">Read More →</a>
-          </div>
-        `;
-        container.appendChild(card);
-      })
-      .catch(err => {
-        console.error(`Error loading ${filename}:`, err);
-      });
-  });
+    let loadedCount = 0;
+    let hasError = false;
+
+    files.forEach((filename, index) => {
+      fetch(`${researchFolder}${filename}`)
+        .then(response => {
+          if (!response.ok) throw new Error('File not found');
+          return response.text();
+        })
+        .then(fileContent => {
+          const parsed = matter(fileContent);
+          const data = parsed.data;
+
+          const research = {
+            title: data.title || fallbackResearch[index].title,
+            description: data.description || data.summary || fallbackResearch[index].description,
+            image: data.image ? `images/${data.image}` : fallbackResearch[index].image,
+            pdf: data.file ? `data/research_pdf/${data.file}` : fallbackResearch[index].pdf
+          };
+
+          container.appendChild(createResearchCard(research));
+          loadedCount++;
+        })
+        .catch(err => {
+          console.warn(`Error loading ${filename}:`, err);
+          if (!hasError) {
+            hasError = true;
+            // If markdown loading fails, use fallback data
+            setTimeout(() => {
+              if (container.children.length === 0) {
+                console.log('Using fallback research data');
+                fallbackResearch.forEach(research => {
+                  container.appendChild(createResearchCard(research));
+                });
+              }
+            }, 1000);
+          }
+        });
+    });
+  } else {
+    // If matter.js is not available, use fallback data
+    console.log('Gray-matter not available, using fallback data');
+    fallbackResearch.forEach(research => {
+      container.appendChild(createResearchCard(research));
+    });
+  }
 });
