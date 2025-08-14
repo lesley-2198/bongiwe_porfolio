@@ -176,19 +176,20 @@ Research Section
   gap: 20px;
   padding: 20px 0;
   scroll-snap-type: x mandatory;
+  justify-content: center;
 }
 
 .card {
-  flex: 0 0 300px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
   text-align: left;
-  transition: transform 0.3s;
+  transition: transform 0.3s, flex-basis 0.3s ease; /* smooth size change */
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
+  flex: 0 0 300px; /* default width */
 }
 
 .read-more-container {

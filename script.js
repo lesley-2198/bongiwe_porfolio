@@ -109,23 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fallback data in case markdown files can't be loaded
   const fallbackResearch = [
     {
-      title: "Relationship Stress vs Academic Performance",
-      description: "This study investigates the correlation between stress levels and academic performance among undergraduate students. It explores how chronic stress, time pressure, and emotional fatigue impact cognitive functioning and exam outcomes...",
-      image: "images/research1.png",
-      pdf: "data/research_pdf/relationship-stress.pdf"
+      title: "Crime & Society",
+      description: "Oversaw a collaborative project by guiding individual contributions and synthesizing them into a cohesive final product. Took the lead in designing and organizing presentation slides to ensure clarity and impact. Engaged confidently with questions from peers and lecturers, enhancing the overall delivery. This experience strengthened a wide range of skills including leadership, problem solving, analytical thinking, teamwork, and effective communication—while also reinforcing a strong work ethic, attention to detail, and a mindset of continuous learning.",
+      image: "images/project1.png",
     },
-    {
-      title: "Post-Pandemic Coping Mechanisms for the Youth",
-      description: "This research explores the coping strategies adopted by youth in the aftermath of the COVID-19 pandemic. It examines how young people navigate emotional distress, social isolation, and academic disruptions through mechanisms such as mindfulness, peer support, digital communities, and creative expression.",
-      image: "images/research3.png",
-      pdf: "data/research_pdf/post-pandemic-coping.pdf"
-    },
-    {
-      title: "Early Childhood Intervention & Psychological Resilience",
-      description: "This study examines how early childhood interventions contribute to the development of psychological resilience later in life. It focuses on programs that support emotional regulation, secure attachment, and cognitive stimulation during formative years.",
-      image: "images/research2.png",
-      pdf: "data/research_pdf/early-childhood-resilience.pdf"
-    }
   ];
 
   // Function to create research cards
@@ -136,9 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <img src="${research.image}" alt="${research.title}" onerror="this.src='images/placeholder.png'">
       <h3>${research.title}</h3>
       <p>${research.description}</p>
-      <div class="read-more-container">
-        <a href="${research.pdf}" class="read-more-btn" target="_blank">Read More →</a>
-      </div>
     `;
     return card;
   }
