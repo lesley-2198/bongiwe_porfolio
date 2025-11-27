@@ -8,7 +8,7 @@ public_folder: "/images"
 collections:
   - name: "research"
     label: "Research Papers"
-    folder: "data/research"
+    folder: "content/research"
     create: true
     slug: "{{slug}}"
     fields:

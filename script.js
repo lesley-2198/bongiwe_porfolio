@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ---------- Load Research Cards with Fallback Data ----------
+// ---------- Load Research Cards ----------
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('research-container');
   
@@ -106,12 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Function to create research cards
   function createResearchCard(research) {
     const card = document.createElement('div');
     card.className = 'card';
     
-    const pdfLink = research.file ? `<a href="/data/${research.file}" target="_blank" class="read-more-btn">View PDF</a>` : '';
+    const pdfLink = research.file ? `<a href="/${research.file}" target="_blank" class="read-more-btn">View PDF</a>` : '';
     
     card.innerHTML = `
       <img src="/${research.image}" alt="${research.title}" onerror="this.src='/images/placeholder.png'">
@@ -122,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   }
 
-  // Load research papers from markdown files
   const researchFiles = [
     'relationship-stress.md',
     'post-pandemic-coping.md', 
@@ -131,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (typeof matter !== 'undefined') {
     researchFiles.forEach(filename => {
-      fetch(`/data/research/${filename}`)
+      fetch(`/content/research/${filename}`)  // Changed path
         .then(response => response.text())
         .then(fileContent => {
           const parsed = matter(fileContent);
