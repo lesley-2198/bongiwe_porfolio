@@ -171,29 +171,7 @@
     <footer>
       <p>&copy; 2025 Bongiwe Ndleve | Developed by Lesley Ngcobo</p>
     </footer>
-
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
     
-        // Handle password recovery redirects
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-    
-        window.netlifyIdentity.on("logout", () => {
-          document.location.href = "/";
-        });
-      }
-    </script>
-
     <script src="script.js"></script>
   </body>
 </html>
