@@ -195,5 +195,42 @@
     </script>
 
     <script src="script.js"></script>
+    
+    <script>
+async function loadResearch() {
+  const researchContainer = document.getElementById("research-list");
+
+  const response = await fetch("/content/research/");
+  const html = await response.text();
+
+  const files = [...html.matchAll(/href="([^"]+\.md)"/g)].map(m => m[1]);
+
+  for (let file of files) {
+    const mdText = await fetch(file).then(r => r.text());
+    const frontMatter = /---([\s\S]*?)---/.exec(mdText)[1];
+    const body = mdText.split('---')[2];
+
+    const data = {};
+    frontMatter.split("\n").forEach(line => {
+      if (line.includes(": ")) {
+        const [key, value] = line.split(": ");
+        data[key.trim()] = value.replace(/"/g, "").trim();
+      }
+    });
+
+    researchContainer.innerHTML += `
+      <div class="research-item">
+        <h3>${data.title}</h3>
+        <small>${new Date(data.date).toDateString()}</small>
+        <p>${data.summary}</p>
+        <a href="${data.pdf}" target="_blank">Download PDF</a>
+        <hr>
+      </div>
+    `;
+  }
+}
+loadResearch();
+</script>
+
   </body>
 </html>

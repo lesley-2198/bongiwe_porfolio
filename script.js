@@ -106,80 +106,45 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Fallback data in case markdown files can't be loaded
-  const fallbackResearch = [
-    {
-      title: "Crime & Society",
-      description: "Oversaw a collaborative project by guiding individual contributions and synthesizing them into a cohesive final product. Took the lead in designing and organizing presentation slides to ensure clarity and impact. Engaged confidently with questions from peers and lecturers, enhancing the overall delivery. This experience strengthened a wide range of skills including leadership, problem solving, analytical thinking, teamwork, and effective communication—while also reinforcing a strong work ethic, attention to detail, and a mindset of continuous learning.",
-      image: "images/project1.png",
-    },
-  ];
-
   // Function to create research cards
   function createResearchCard(research) {
     const card = document.createElement('div');
     card.className = 'card';
+    
+    const pdfLink = research.file ? `<a href="/data/${research.file}" target="_blank" class="read-more-btn">View PDF</a>` : '';
+    
     card.innerHTML = `
-      <img src="${research.image}" alt="${research.title}" onerror="this.src='images/placeholder.png'">
+      <img src="/${research.image}" alt="${research.title}" onerror="this.src='/images/placeholder.png'">
       <h3>${research.title}</h3>
       <p>${research.description}</p>
+      ${pdfLink}
     `;
     return card;
   }
 
-  // Try to load from markdown files first, fallback to hardcoded data
+  // Load research papers from markdown files
+  const researchFiles = [
+    'relationship-stress.md',
+    'post-pandemic-coping.md', 
+    'early-childhood-resilience.md'
+  ];
+
   if (typeof matter !== 'undefined') {
-    const researchFolder = 'data/research/';
-    const files = [
-      'relationship-stress.md',
-      'post-pandemic-coping.md', 
-      'early-childhood-resilience.md'
-    ];
-
-    let loadedCount = 0;
-    let hasError = false;
-
-    files.forEach((filename, index) => {
-      fetch(`${researchFolder}${filename}`)
-        .then(response => {
-          if (!response.ok) throw new Error('File not found');
-          return response.text();
-        })
+    researchFiles.forEach(filename => {
+      fetch(`/data/research/${filename}`)
+        .then(response => response.text())
         .then(fileContent => {
           const parsed = matter(fileContent);
           const data = parsed.data;
-
-          const research = {
-            title: data.title || fallbackResearch[index].title,
-            description: data.description || data.summary || fallbackResearch[index].description,
-            image: data.image ? `images/${data.image}` : fallbackResearch[index].image,
-            pdf: data.file ? `data/research_pdf/${data.file}` : fallbackResearch[index].pdf
-          };
-
-          container.appendChild(createResearchCard(research));
-          loadedCount++;
+          
+          container.appendChild(createResearchCard({
+            title: data.title,
+            description: data.description,
+            image: data.image,
+            file: data.file
+          }));
         })
-        .catch(err => {
-          console.warn(`Error loading ${filename}:`, err);
-          if (!hasError) {
-            hasError = true;
-            // If markdown loading fails, use fallback data
-            setTimeout(() => {
-              if (container.children.length === 0) {
-                console.log('Using fallback research data');
-                fallbackResearch.forEach(research => {
-                  container.appendChild(createResearchCard(research));
-                });
-              }
-            }, 1000);
-          }
-        });
-    });
-  } else {
-    // If matter.js is not available, use fallback data
-    console.log('Gray-matter not available, using fallback data');
-    fallbackResearch.forEach(research => {
-      container.appendChild(createResearchCard(research));
+        .catch(err => console.error(`Error loading ${filename}:`, err));
     });
   }
 });

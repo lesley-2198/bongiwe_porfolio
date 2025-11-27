@@ -11,11 +11,9 @@ collections:
     folder: "data/research"
     create: true
     slug: "{{slug}}"
-    format: "yaml-frontmatter"
-    extension: "md"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
-      - { label: "Image", name: "image", widget: "image" }
-      - { label: "PDF File", name: "pdf", widget: "file", media_folder: "/data/research_pdf", public_folder: "/data/research_pdf" }
-      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "PDF File", name: "file", widget: "file", required: false }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
