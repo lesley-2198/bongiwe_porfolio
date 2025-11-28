@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: https://github.com/lesley-2198/bongiwe_porfolio
   branch: main
 
 media_folder: "images"
