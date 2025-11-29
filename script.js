@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ---------- Load Research Cards Dynamically ----------
+// ---------- Load Research Cards ----------
 document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('research-container');
   
@@ -110,10 +110,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const card = document.createElement('div');
     card.className = 'card';
     
-    const pdfLink = research.file ? `<div class="read-more-container"><a href="/${research.file}" target="_blank" class="read-more-btn">View PDF</a></div>` : '';
+    const pdfLink = research.file ? 
+      `<div class="read-more-container"><a href="/${research.file}" target="_blank" class="read-more-btn">View PDF</a></div>` : '';
     
     card.innerHTML = `
-      <img src="/${research.image}" alt="${research.title}" onerror="this.src='/images/placeholder.png'">
+      <img src="/${research.image || 'images/placeholder.png'}" alt="${research.title}" onerror="this.src='/images/placeholder.png'">
       <h3>${research.title}</h3>
       <p>${research.description}</p>
       ${pdfLink}
@@ -121,67 +122,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     return card;
   }
 
-  // Fetch all markdown files from the research folder
-  try {
-    // Try to load from Netlify CMS first (this will work after publishing)
-    const response = await fetch('https://api.github.com/repos/lesley-2198/bongiwe_porfolio/contents/content/research');
-    const files = await response.json();
-    
-    if (Array.isArray(files)) {
-      // Filter only .md files
-      const mdFiles = files.filter(file => file.name.endsWith('.md'));
+  // List of all research files
+  const researchFiles = [
+    'relationship-stress.md',
+    'post-pandemic-coping.md', 
+    'early-childhood-resilience.md',
+    'early-childhood-development.md' // Add new papers here
+  ];
+
+  // Load each file
+  for (const filename of researchFiles) {
+    try {
+      const response = await fetch(`/content/research/${filename}`);
       
-      // Load each markdown file
-      for (const file of mdFiles) {
-        try {
-          const fileResponse = await fetch(file.download_url);
-          const fileContent = await fileResponse.text();
-          
-          if (typeof matter !== 'undefined') {
-            const parsed = matter(fileContent);
-            const data = parsed.data;
-            
-            container.appendChild(createResearchCard({
-              title: data.title,
-              description: data.description,
-              image: data.image,
-              file: data.file
-            }));
-          }
-        } catch (err) {
-          console.error(`Error loading ${file.name}:`, err);
-        }
+      if (!response.ok) {
+        console.warn(`Could not load ${filename}: ${response.status}`);
+        continue;
       }
-    }
-  } catch (err) {
-    console.error('Error fetching research files:', err);
-    
-    // Fallback: Load hardcoded files
-    const fallbackFiles = [
-      'relationship-stress.md',
-      'post-pandemic-coping.md', 
-      'early-childhood-resilience.md'
-    ];
-    
-    for (const filename of fallbackFiles) {
-      try {
-        const response = await fetch(`/content/research/${filename}`);
-        const fileContent = await response.text();
+      
+      const fileContent = await response.text();
+      
+      // Parse frontmatter manually if gray-matter doesn't work
+      const frontmatterMatch = fileContent.match(/---\n([\s\S]*?)\n---/);
+      
+      if (frontmatterMatch) {
+        const frontmatter = frontmatterMatch[1];
+        const data = {};
         
-        if (typeof matter !== 'undefined') {
-          const parsed = matter(fileContent);
-          const data = parsed.data;
-          
-          container.appendChild(createResearchCard({
-            title: data.title,
-            description: data.description,
-            image: data.image,
-            file: data.file
-          }));
+        // Parse YAML-like frontmatter
+        frontmatter.split('\n').forEach(line => {
+          const match = line.match(/^(\w+):\s*"?(.+?)"?$/);
+          if (match) {
+            data[match[1]] = match[2].replace(/^"|"$/g, '');
+          }
+        });
+        
+        if (data.title) {
+          container.appendChild(createResearchCard(data));
         }
-      } catch (err) {
-        console.error(`Error loading ${filename}:`, err);
       }
+    } catch (err) {
+      console.error(`Error loading ${filename}:`, err);
     }
+  }
+  
+  // If no cards loaded, show a message
+  if (container.children.length === 0) {
+    container.innerHTML = '<p>No research papers found. Please check the console for errors.</p>';
   }
 });
