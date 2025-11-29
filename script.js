@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ---------- Load Research Cards ----------
-document.addEventListener('DOMContentLoaded', () => {
+// ---------- Load Research Cards Dynamically ----------
+document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('research-container');
   
   if (!container) {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'card';
     
-    const pdfLink = research.file ? `<a href="/${research.file}" target="_blank" class="read-more-btn">View PDF</a>` : '';
+    const pdfLink = research.file ? `<div class="read-more-container"><a href="/${research.file}" target="_blank" class="read-more-btn">View PDF</a></div>` : '';
     
     card.innerHTML = `
       <img src="/${research.image}" alt="${research.title}" onerror="this.src='/images/placeholder.png'">
@@ -121,17 +121,54 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   }
 
-  const researchFiles = [
-    'relationship-stress.md',
-    'post-pandemic-coping.md', 
-    'early-childhood-resilience.md'
-  ];
-
-  if (typeof matter !== 'undefined') {
-    researchFiles.forEach(filename => {
-      fetch(`/content/research/${filename}`)  // Changed path
-        .then(response => response.text())
-        .then(fileContent => {
+  // Fetch all markdown files from the research folder
+  try {
+    // Try to load from Netlify CMS first (this will work after publishing)
+    const response = await fetch('https://api.github.com/repos/lesley-2198/bongiwe_porfolio/contents/content/research');
+    const files = await response.json();
+    
+    if (Array.isArray(files)) {
+      // Filter only .md files
+      const mdFiles = files.filter(file => file.name.endsWith('.md'));
+      
+      // Load each markdown file
+      for (const file of mdFiles) {
+        try {
+          const fileResponse = await fetch(file.download_url);
+          const fileContent = await fileResponse.text();
+          
+          if (typeof matter !== 'undefined') {
+            const parsed = matter(fileContent);
+            const data = parsed.data;
+            
+            container.appendChild(createResearchCard({
+              title: data.title,
+              description: data.description,
+              image: data.image,
+              file: data.file
+            }));
+          }
+        } catch (err) {
+          console.error(`Error loading ${file.name}:`, err);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching research files:', err);
+    
+    // Fallback: Load hardcoded files
+    const fallbackFiles = [
+      'relationship-stress.md',
+      'post-pandemic-coping.md', 
+      'early-childhood-resilience.md'
+    ];
+    
+    for (const filename of fallbackFiles) {
+      try {
+        const response = await fetch(`/content/research/${filename}`);
+        const fileContent = await response.text();
+        
+        if (typeof matter !== 'undefined') {
           const parsed = matter(fileContent);
           const data = parsed.data;
           
@@ -141,8 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
             image: data.image,
             file: data.file
           }));
-        })
-        .catch(err => console.error(`Error loading ${filename}:`, err));
-    });
+        }
+      } catch (err) {
+        console.error(`Error loading ${filename}:`, err);
+      }
+    }
   }
 });
