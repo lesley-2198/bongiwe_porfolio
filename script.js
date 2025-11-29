@@ -122,12 +122,68 @@ document.addEventListener('DOMContentLoaded', async () => {
     return card;
   }
 
+  // Parse YAML frontmatter properly
+  function parseFrontmatter(content) {
+    const match = content.match(/---\n([\s\S]*?)\n---/);
+    if (!match) return null;
+    
+    const frontmatter = match[1];
+    const data = {};
+    let currentKey = null;
+    let currentValue = '';
+    let inMultiLine = false;
+    
+    const lines = frontmatter.split('\n');
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      
+      // Check if this is a new key-value pair
+      const keyMatch = line.match(/^(\w+):\s*(.*)$/);
+      
+      if (keyMatch && !inMultiLine) {
+        // Save previous key-value if exists
+        if (currentKey) {
+          data[currentKey] = currentValue.trim().replace(/^["']|["']$/g, '');
+        }
+        
+        currentKey = keyMatch[1];
+        currentValue = keyMatch[2];
+        
+        // Check if value starts with a quote (multi-line string)
+        if (currentValue.startsWith('"') && !currentValue.endsWith('"')) {
+          inMultiLine = true;
+          currentValue = currentValue.substring(1); // Remove opening quote
+        } else if (currentValue.startsWith('"') && currentValue.endsWith('"')) {
+          // Single line quoted string
+          currentValue = currentValue.slice(1, -1);
+        }
+      } else if (inMultiLine) {
+        // Continue building multi-line value
+        if (line.trim().endsWith('"')) {
+          // End of multi-line string
+          currentValue += ' ' + line.trim().slice(0, -1);
+          inMultiLine = false;
+        } else {
+          currentValue += ' ' + line.trim();
+        }
+      }
+    }
+    
+    // Save the last key-value pair
+    if (currentKey) {
+      data[currentKey] = currentValue.trim().replace(/^["']|["']$/g, '');
+    }
+    
+    return data;
+  }
+
   // List of all research files
   const researchFiles = [
     'relationship-stress.md',
     'post-pandemic-coping.md', 
     'early-childhood-resilience.md',
-    'early-childhood-development.md' // Add new papers here
+    'early-childhood-development.md'
   ];
 
   // Load each file
@@ -141,25 +197,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       
       const fileContent = await response.text();
+      const data = parseFrontmatter(fileContent);
       
-      // Parse frontmatter manually if gray-matter doesn't work
-      const frontmatterMatch = fileContent.match(/---\n([\s\S]*?)\n---/);
-      
-      if (frontmatterMatch) {
-        const frontmatter = frontmatterMatch[1];
-        const data = {};
-        
-        // Parse YAML-like frontmatter
-        frontmatter.split('\n').forEach(line => {
-          const match = line.match(/^(\w+):\s*"?(.+?)"?$/);
-          if (match) {
-            data[match[1]] = match[2].replace(/^"|"$/g, '');
-          }
-        });
-        
-        if (data.title) {
-          container.appendChild(createResearchCard(data));
-        }
+      if (data && data.title) {
+        container.appendChild(createResearchCard(data));
       }
     } catch (err) {
       console.error(`Error loading ${filename}:`, err);
