@@ -12,6 +12,5 @@ description: "\"A child's brain is like a sponge, it will absorb any information
   stimulating environments help children develop confidence, creativity, and
   social competence that will serve them throughout their lives."
 image: https://nojokechildcare.com/wp-content/uploads/2023/09/6-Early-Childhood-Education-Benefits-That-You-Can-Highlight.png
-file: /images/early-childhood-resilience.pdf
 date: 2025-11-29
 ---
